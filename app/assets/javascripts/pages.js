@@ -3,9 +3,9 @@
   var config = {
     'visible': true,
     'sourceUrl': false}, 
-  pageData = '',
-  pageNum = 0,
-  selector = undefined;
+    pageData = '',
+    pageNum = 0,
+    selector = undefined;
 
   var LEFT=37, UP=38, RIGHT=39, DOWN=40;
 
@@ -20,9 +20,21 @@
 
   };
 
-  pageNumber = function(){
-    return pageNum;
-  }
+  $.fn.prevPage = function(){
+    if($('#blockInput').length) return false;
+
+    if(pageNum > 0) pageNum--;
+    render();
+  };
+
+  $.fn.nextPage = function(){
+    if($('#blockInput').length) return false;
+
+    if(pageData.pages.length){
+      if(pageNum < pageData.pages.length-1) pageNum++;
+      render();
+    }
+  };
 
   observeKeypress = function(){
     $(document).on('keyup', function(e){
@@ -51,25 +63,16 @@
     // console.log(pageNum);
     // console.log(pageData.pages[pageNum].content);
 
-    selector.html(pageData.pages[pageNum].content);
+    content = pageData.pages[pageNum].content
+    selector.html(content);
+    $('<h4>').attr({id: 'page_number'}).appendTo(selector);
+    $('#page_number').html(pageNum);
+
+
     blockInput(1000);
   };
 
-  $.fn.prevPage = function(){
-    if($('#blockInput').length) return false;
-
-    if(pageNum > 0) pageNum--;
-    render();
-  };
-
-  $.fn.nextPage = function(){
-    if($('#blockInput').length) return false;
-
-    if(pageData.pages.length){
-      if(pageNum < pageData.pages.length-1) pageNum++;
-      render();
-    }
-  };
+  
 
   fetch = function(sourceUrl) {
     $.getJSON(sourceUrl, function(json){

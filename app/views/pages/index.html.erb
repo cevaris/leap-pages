@@ -26,41 +26,25 @@
 
   var handleGestures = function (gestures){
 
-    // var gesture = frame.gestures[i];
     $.each(gestures, function( index, gesture ) {
-      // console.log( index + ": " + value);
 
       if (gesture.type == "swipe") {;
         //Classify swipe as either horizontal or vertical
         var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
         //Classify as right-left or up-down
         if(isHorizontal){
-          swipeDirection = (gesture.direction[0] > 0) ? 'right' : 'left';
-          
-
           if(gesture.direction[0] > 0){
-              swipeDirection = "right";
-              $('#page').nextPage();
+            swipeDirection = "right";
+            $('#page').nextPage();
           } else {
-              swipeDirection = "left";
-              $('#page').prevPage();
+            swipeDirection = "left";
+            $('#page').prevPage();
           }
-        } else { //vertical
-            if(gesture.direction[1] > 0){
-                swipeDirection = "up";
-            } else {
-                swipeDirection = "down";
-            }                  
         }
-       }
+      }
 
     });
-
-    
-
-          
-
-  }
+  };
 
   var controller = new Leap.Controller({enableGestures: true});
   controller.loop(function(frame) {
