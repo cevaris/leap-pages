@@ -6,11 +6,31 @@
 <div id="log"></div>
 
 
+<div class="button leap-interactive">Click Me</div>
+<div class="button leap-interactive">Click Me</div>
+<div class="button leap-interactive">Click Me</div>
+<div class="button leap-interactive">Click Me</div>
+<div class="button leap-interactive">Click Me</div>
+
+
+<div class="output"></div>
 
 <script>
   $('#page').pages({
     'sourceUrl': 'http://localhost:3000/assets/sample.json'
   });
+
+  var buttons = document.querySelectorAll("div.button");
+  var output  = document.querySelector("div.output");
+  var count   = 0;
+
+  for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", function(e){
+          output.innerHTML += count + ": Button Clicked</br>";
+          count++;
+      });
+  };
+
 
   var pausedFrame = null;
   var latestFrame = null;
@@ -35,10 +55,11 @@
         if(isHorizontal){
           if(gesture.direction[0] > 0){
             swipeDirection = "right";
-            $('#page').nextPage();
+            $('#page').prevPage();
           } else {
             swipeDirection = "left";
-            $('#page').prevPage();
+            $('#page').nextPage();
+            
           }
         }
       }
@@ -49,7 +70,7 @@
   var controller = new Leap.Controller({enableGestures: true});
   controller.loop(function(frame) {
     latestFrame = frame;
-    // document.getElementById('out').innerHTML = (pausedFrame ? "<p><b>PAUSED</b></p>" : "") + "<div>"+(pausedFrame || latestFrame).dump()+"</div>";
+    document.getElementById('out').innerHTML = (pausedFrame ? "<p><b>PAUSED</b></p>" : "") + "<div>"+(pausedFrame || latestFrame).dump()+"</div>";
 
     if(latestFrame.gestures.length){
       handleGestures(latestFrame.gestures);
@@ -77,6 +98,11 @@
     console.log("deviceDisconnected");
   });
 
+
+  LeapManager.init({
+    maxCursors:1,
+    enableHoverTap: true
+  });
 
 
 </script>
