@@ -22,30 +22,6 @@
 </style>
 
 
-
-<hr/>
-
-
-<div id="page"></div>
-
-
-
-
-
-<hr/>
-
-<div class="button leap-interactive">Click Me</div>
-<div class="button leap-interactive">Click Me</div>
-<div class="button leap-interactive">Click Me</div>
-<div class="button leap-interactive">Click Me</div>
-<div class="button leap-interactive">Click Me</div>
-<div class="output"></div>
-
-
-<hr/>
-
-
-
 <div class="grabbale leap-interactive" leap-disable-tap="true">GRAB ME</div>
 
 
@@ -55,23 +31,6 @@
 
 
 <script>
-  $('#page').pages({
-    'sourceUrl': 'http://localhost:3000/assets/sample.json'
-  });
-
-  //---------------------
-
-  var buttons = document.querySelectorAll("div.button");
-  var output  = document.querySelector("div.output");
-  var count   = 0;
-
-  for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener("click", function(e){
-          output.innerHTML += count + ": Button Clicked</br>";
-          count++;
-      });
-  };
-
 
 
   //---------------------
@@ -116,37 +75,10 @@
     }
   };
 
-  var handleGestures = function (gestures){
-
-    $.each(gestures, function( index, gesture ) {
-
-      if (gesture.type == "swipe") {;
-        //Classify swipe as either horizontal or vertical
-        var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
-        //Classify as right-left or up-down
-        if(isHorizontal){
-          if(gesture.direction[0] > 0){
-            swipeDirection = "right";
-            $('#page').prevPage();
-          } else {
-            swipeDirection = "left";
-            $('#page').nextPage();
-            
-          }
-        }
-      }
-
-    });
-  };
-
   var controller = new Leap.Controller({enableGestures: true});
   controller.loop(function(frame) {
     latestFrame = frame;
     document.getElementById('out').innerHTML = (pausedFrame ? "<p><b>PAUSED</b></p>" : "") + "<div>"+(pausedFrame || latestFrame).dump()+"</div>";
-
-    if(latestFrame.gestures.length){
-      handleGestures(latestFrame.gestures);
-    }
   });
   controller.on('ready', function() {
     console.log("ready");

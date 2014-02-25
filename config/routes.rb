@@ -1,5 +1,17 @@
 Pages::Application.routes.draw do
+
+  root 'pages#swipe'
+  
+
+
+  get 'pages/swipe' => 'pages#swipe'
+  get 'pages/click' => 'pages#click'
+  get 'pages/grab', to: 'pages#grab'
+
   resources :pages
+  # get 'jobs/poll', to: 'jobs#poll', as: :jobs_poll
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
