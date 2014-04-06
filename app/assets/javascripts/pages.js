@@ -84,7 +84,7 @@ function Pages( options ) {
 
   var fetch = function(sourceUrl) {
     console.log(sourceUrl);
-    $.get(sourceUrl, function(json){
+    $.getJSON(sourceUrl, function(json){
       pageData = json;
       console.log("Gots the data");
       console.log(json);
