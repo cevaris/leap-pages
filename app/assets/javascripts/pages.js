@@ -15,16 +15,12 @@ function Pages( options ) {
     pageData = '',
     pageNum = 0;
 
-  LeapManager.init({
-    maxCursors:1,
-    enableHoverTap: true,
-    // enableMetaGestures: false
-  });
-
 
   var pausedFrame = null;
   var latestFrame = null;
-  var controller = new Leap.Controller({enableGestures: true});
+  // var controller = new Leap.Controller({enableGestures: true});
+
+
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
@@ -133,27 +129,46 @@ function Pages( options ) {
     }
   };
 
-  var handleGestures = function (gestures){
 
-    $.each(gestures, function( index, gesture ) {
+  var handleGestures = function (gesture){
 
-      if (gesture.type == "swipe") {;
-        //Classify swipe as either horizontal or vertical
-        var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
-        //Classify as right-left or up-down
-        if(isHorizontal){
-          if(gesture.direction[0] > 0){
-            swipeDirection = "right";
-            prevPage();
-          } else {
-            swipeDirection = "left";
-            nextPage();
-          }
+
+    if (gesture.type == "swipe") {;
+      //Classify swipe as either horizontal or vertical
+      // var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+      //Classify as right-left or up-down
+      // if(isHorizontal){
+        if(gesture.direction[0] > 0){
+          // swipeDirection = "right";
+          prevPage();
+        } else {
+          // swipeDirection = "left";
+          nextPage();
         }
-      }
-
-    });
+      // }
+    }
   };
+  // var handleGestures = function (gestures){
+
+  //   $.each(gestures, function( index, gesture ) {
+
+  //     if (gesture.type == "swipe") {;
+  //       //Classify swipe as either horizontal or vertical
+  //       var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+  //       //Classify as right-left or up-down
+  //       if(isHorizontal){
+  //         if(gesture.direction[0] > 0){
+  //           swipeDirection = "right";
+  //           prevPage();
+  //         } else {
+  //           swipeDirection = "left";
+  //           nextPage();
+  //         }
+  //       }
+  //     }
+
+  //   });
+  // };
 
   var init = function() {
 
@@ -177,17 +192,37 @@ function Pages( options ) {
     console.log(config);
     console.log(pageData);
 
-    controller.loop(function(frame) {
-      latestFrame = frame;
+    LeapManager.init({
+    maxCursors:1,
+    enableHoverTap: true,
+    enableDefaultMetaGestureActions: false,
+    gestureCallback:function(e){
+      handleGestures(e);
+      // if(e.type === "swipe" && e.state === "stop") {
+        // console.log(e);
+        // if(e.direction[0] > 0) {
+        //     currentSection--;
+        //     if(currentSection <0) currentSection = 0;
+        // }else{
+        //     currentSection++;
+        //     if(currentSection >totalSections) currentSection = totalSections;
 
-      if(config.log)
-        document.getElementById('out').innerHTML = (pausedFrame ? "<p><b>PAUSED</b></p>" : "") + "<div>"+(pausedFrame || latestFrame).dump()+"</div>";
+        // }
+      // }
+    }
+  });
 
-      if(latestFrame.gestures.length){
-        handleGestures(latestFrame.gestures);
-      }
+    // controller.loop(function(frame) {
+    //   latestFrame = frame;
 
-    });
+    //   if(config.log)
+    //     document.getElementById('out').innerHTML = (pausedFrame ? "<p><b>PAUSED</b></p>" : "") + "<div>"+(pausedFrame || latestFrame).dump()+"</div>";
+
+    //   if(latestFrame.gestures.length){
+    //     handleGestures(latestFrame.gestures);
+    //   }
+
+    // });
 
     return this;    
   };
