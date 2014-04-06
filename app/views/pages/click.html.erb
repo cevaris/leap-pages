@@ -16,17 +16,6 @@
 <div id="out"></div>
 <div id="log"></div>
 
-<script type="text/javascript">
-$(document).ready(function(){
-  var metrics = new Metrics({
-    container: ".metrics",
-    data: $.parseJSON(<%= raw @metric.data.to_json %>)
-  }).render();
-});
-
-</script>
-
-
 <script>
   
   var buttons = document.querySelectorAll("div.button");

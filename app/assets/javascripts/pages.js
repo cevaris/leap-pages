@@ -18,6 +18,11 @@ function Pages( options ) {
   var pausedFrame = null;
   var latestFrame = null;
   var controller = new Leap.Controller({enableGestures: true});
+
+  var leapManager = LeapManager.init({
+    maxCursors:1,
+    enableHoverTap: true
+  });
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
@@ -43,7 +48,7 @@ function Pages( options ) {
     if(pageData.pages.length){
       
       beforeAction()
-      
+
       if(pageNum < pageData.pages.length-1) pageNum++;
       
       render();
