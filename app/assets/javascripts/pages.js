@@ -77,15 +77,17 @@ function Pages( options ) {
     config = $.extend(config, options); 
     console.log(config);
 
-    if(config.selector) {
-      selector = $(config.selector);
-    }
     
-    observeKeypress();
+    if(!config.selector)
+      throw "Selector not defined";
+    if(!config.sourceUrl)
+      throw "Page URL not defined";
 
-    if(config.sourceUrl) {
-      fetch(config.sourceUrl);
-    }
+
+    selector = $(config.selector);
+    observeKeypress();
+    fetch(config.sourceUrl);
+    
 
     return this;
 
