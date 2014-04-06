@@ -15,15 +15,16 @@ function Pages( options ) {
     pageData = '',
     pageNum = 0;
 
+  LeapManager.init({
+    maxCursors:1,
+    enableHoverTap: true,
+    // enableMetaGestures: false
+  });
+
 
   var pausedFrame = null;
   var latestFrame = null;
   var controller = new Leap.Controller({enableGestures: true});
-
-  var leapManager = LeapManager.init({
-    maxCursors:1,
-    enableHoverTap: true
-  });
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
@@ -52,7 +53,16 @@ function Pages( options ) {
       // console.log(handlers.click[currPage.id]);
       
       if(currPage.id in handlers.click){
-        $(document.body).on("click", handlers.click[currPage.id].selector, handlers.click[currPage.id].action);
+        if (handlers.click[currPage.id] instanceof Array) {
+          $.each( handlers.click[currPage.id], function( index, handler ) {
+            console.log( index );
+            console.log( handler );
+            $(document.body).on("click", handler.selector, handler.action);
+            console.log("Attached Handler: "+index);
+          });
+
+        }
+        // $(document.body).on("click", handlers.click[currPage.id].selector, handlers.click[currPage.id].action);
         // console.log("Attached");
       }
     }
