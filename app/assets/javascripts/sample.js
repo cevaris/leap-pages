@@ -11,19 +11,17 @@ var book = {
 
 var gestureHandler = {
   swipeLeft : {
-    "hdb": { func: function(){ console.log("Swiped left says the handler!!!") } },
+    "kdb": { func: function(){ console.log("Swiped left says the handler!!!") } },
     "kdd": { func: function(){ console.log("Swiped left says the handler!!!") } }, 
   },
   swipeRight : {
-    "hdd": { func: function(){ console.log("Swiped right says the handler!!!"); } }
+    "kdb": { func: function(){ console.log("Swiped right says the handler!!!"); } }
   }
 };
-console.log(gestureHandler);
-
 
 var pages = new Pages({
   source: book,
-  handler: gestureHandler,
+  handlers: gestureHandler,
   selector: '#page'
   // log: true
 });

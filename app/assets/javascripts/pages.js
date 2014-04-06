@@ -6,6 +6,7 @@ function Pages( options ) {
       visible : true,
       source : false,
       selector : false,
+      handlers: false,
       log : false
     }, 
     currPage = false,
@@ -22,7 +23,6 @@ function Pages( options ) {
     if($('#blockInput').length) return false;
 
     if(pageNum > 0) pageNum--;
-    console.log("Rendered page " + currPage.id);
     render();
   };
 
@@ -30,8 +30,18 @@ function Pages( options ) {
     if($('#blockInput').length) return false;
 
     if(pageData.pages.length){
+
+      var handlers = config.handlers;
+      if(handlers && handlers.swipeLeft){
+        // console.log(handlers.swipeLeft);
+        // console.log(currPage.id);
+        // console.log(currPage.id in handlers.swipeLeft);
+        if(currPage.id in handlers.swipeLeft)
+          handlers.swipeLeft[currPage.id].func();
+      }
+
       if(pageNum < pageData.pages.length-1) pageNum++;
-      console.log("Rendered page " + currPage.id);
+      
       render();
     }
   };
@@ -122,6 +132,9 @@ function Pages( options ) {
     observeKeypress();
     pageData = config.source;
     render();
+
+
+    console.log(config);
     console.log(pageData);
 
     controller.loop(function(frame) {
