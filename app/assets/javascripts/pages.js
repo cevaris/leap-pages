@@ -4,13 +4,15 @@ function Pages( options ) {
   
   var config = {
       visible : true,
-      sourceUrl : false,
+      source : false,
       selector : false,
       log : false
     }, 
+    page = false,
+    pageId = false,
+    selector = false,
     pageData = '',
-    pageNum = 0,
-    selector = undefined;
+    pageNum = 0;
 
 
   var pausedFrame = null;
@@ -126,21 +128,21 @@ function Pages( options ) {
     });
   };
 
-  var init = function(options) {
+  var init = function() {
 
     config = $.extend(config, options); 
-    console.log(config);
-
-    
+        
     if(!config.selector)
       throw "Selector not defined";
-    if(!config.sourceUrl)
-      throw "Page URL not defined";
+    if(!config.source)
+      throw "Book not defined";
 
 
     selector = $(config.selector);
     observeKeypress();
-    fetch(config.sourceUrl);
+    pageData = config.source;
+    render();
+    console.log(pageData);
 
     controller.loop(function(frame) {
       latestFrame = frame;
@@ -153,111 +155,11 @@ function Pages( options ) {
       }
 
     });
-    
 
-    return this;
+    return this;    
   };
 
 
-  return init(options);
+  return init();
 
 }
-
-
-
-
-
-
-
-// (function ( $ ) {
-
-//   var config = {
-//     'visible': true,
-//     'sourceUrl': false}, 
-//     pageData = '',
-//     pageNum = 0,
-//     selector = undefined;
-
-//   var LEFT=37, UP=38, RIGHT=39, DOWN=40;
-
-
-//   $.fn.pages = function(options) {
-
-//     config = $.extend(config, options); 
-//     console.log(config);
-
-//     selector = this;
-//     init();
-
-//   };
-
-//   $.fn.prevPage = function(){
-//     if($('#blockInput').length) return false;
-
-//     if(pageNum > 0) pageNum--;
-//     render();
-//   };
-
-//   $.fn.nextPage = function(){
-//     if($('#blockInput').length) return false;
-
-//     if(pageData.pages.length){
-//       if(pageNum < pageData.pages.length-1) pageNum++;
-//       render();
-//     }
-//   };
-
-//   observeKeypress = function(){
-//     $(document).on('keyup', function(e){
-//       if (e.keyCode == RIGHT) { 
-//         nextPage();
-//         console.log("RIGHT");
-//         return false;
-//       }
-//       if (e.keyCode == LEFT) { 
-//         console.log("LEFT");
-//         prevPage();
-//         return false;
-//       }
-//     });
-//   };
-
-//   blockInput = function(time){
-//     // Create hidden field
-//     $('<input>').attr({type: 'hidden',id: 'blockInput',name: 'blockInput'}).appendTo(selector);
-//     // Delete hidden field after N time
-//     setTimeout(function(){ $('#blockInput').remove() }, time);
-//   }
-
-//   render = function(){
-//     // console.log(pageData);
-//     // console.log(pageNum);
-//     // console.log(pageData.pages[pageNum].content);
-
-//     content = pageData.pages[pageNum].content
-//     selector.html(content);
-//     $('<h4>').attr({id: 'page_number'}).appendTo(selector);
-//     $('#page_number').html(pageNum);
-
-
-//     blockInput(1000);
-//   };
-
-  
-
-//   fetch = function(sourceUrl) {
-//     $.getJSON(sourceUrl, function(json){
-//       pageData = json;
-//       render();
-//     });
-//   };
-
-//   init = function() {
-//     observeKeypress();
-
-//     if(config.sourceUrl) {
-//       fetch(config.sourceUrl);
-//     }
-//   };
-
-// }( jQuery ));
