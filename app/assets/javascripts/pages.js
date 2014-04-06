@@ -26,20 +26,24 @@ function Pages( options ) {
     render();
   };
 
+  var beforeAction = function(){
+    var handlers = config.handlers;
+    if(handlers && handlers.swipeLeft){
+      // console.log(handlers.swipeLeft);
+      // console.log(currPage.id);
+      // console.log(currPage.id in handlers.swipeLeft);
+      if(currPage.id in handlers.swipeLeft)
+        handlers.swipeLeft[currPage.id].action();
+    }
+  }
+
   var nextPage = function(){
     if($('#blockInput').length) return false;
 
     if(pageData.pages.length){
-
-      var handlers = config.handlers;
-      if(handlers && handlers.swipeLeft){
-        // console.log(handlers.swipeLeft);
-        // console.log(currPage.id);
-        // console.log(currPage.id in handlers.swipeLeft);
-        if(currPage.id in handlers.swipeLeft)
-          handlers.swipeLeft[currPage.id].func();
-      }
-
+      
+      beforeAction()
+      
       if(pageNum < pageData.pages.length-1) pageNum++;
       
       render();
