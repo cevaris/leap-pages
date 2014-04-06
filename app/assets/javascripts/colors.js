@@ -12,9 +12,9 @@ var gestureHandler = {
   },
   click : {
     "kdb": [
-      { selector: "#red", action: function(e){ console.log("Nope, wrong color"); } },
-      { selector: "#green", action: function(e){ console.log("Close, try again!"); } },
-      { selector: "#blue", action: function(e){ console.log("You got it!!"); } }
+      { selector: "#red", action: function(e){ alert("Nope, wrong color"); } },
+      { selector: "#green", action: function(e){ alert("Close, try again!"); } },
+      { selector: "#blue", action: function(e){ alert("You got it!!"); } }
     ]
   }
 };
