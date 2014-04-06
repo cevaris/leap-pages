@@ -31,7 +31,7 @@ function Pages( options ) {
     render();
   };
 
-  var beforeAction = function(){
+  var beforeRender = function(){
     var handlers = config.handlers;
     if(handlers && handlers.swipeLeft){
       // console.log(handlers.swipeLeft);
@@ -42,12 +42,27 @@ function Pages( options ) {
     }
   }
 
+  var afterRender = function(){
+    var handlers = config.handlers;
+    if(handlers && handlers.click){
+      // console.log(handlers.swipeLeft);
+      // console.log(currPage.id);
+      // console.log(currPage.id in handlers.click);
+      // console.log(handlers.click[currPage.id]);
+      
+      if(currPage.id in handlers.click){
+        $(document.body).on("click", handlers.click[currPage.id].selector, handlers.click[currPage.id].action);
+        // console.log("Attached");
+      }
+    }
+  }
+
   var nextPage = function(){
     if($('#blockInput').length) return false;
 
     if(pageData.pages.length){
       
-      beforeAction()
+      beforeRender()
 
       if(pageNum < pageData.pages.length-1) pageNum++;
       
@@ -90,6 +105,8 @@ function Pages( options ) {
     $('<h4>').attr({id: 'page_number'}).appendTo(selector);
     $('#page_number').html(pageNum);
 
+
+    afterRender();
 
     blockInput(1000);
   };
