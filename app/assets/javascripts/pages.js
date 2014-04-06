@@ -16,6 +16,16 @@ function Pages( options ) {
   var pausedFrame = null;
   var latestFrame = null;
   var controller = new Leap.Controller({enableGestures: true});
+
+  var swipeRightFunc = function () {};
+  var swipeLeftFunc  = function () {};
+
+  this.attachSwipeLeft = function(func){
+    swipeLeftFunc = func;
+  }
+  this.attachSwipeRight = function(func){
+    swipeRightFunc = func;
+  }
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
@@ -73,8 +83,11 @@ function Pages( options ) {
   
 
   var fetch = function(sourceUrl) {
-    $.getJSON(sourceUrl, function(json){
+    console.log(sourceUrl);
+    $.get(sourceUrl, function(json){
       pageData = json;
+      console.log("Gots the data");
+      console.log(json);
       render();
     });
   };
@@ -101,9 +114,11 @@ function Pages( options ) {
           if(gesture.direction[0] > 0){
             swipeDirection = "right";
             prevPage();
+            swipeRightFunc();
           } else {
             swipeDirection = "left";
             nextPage();
+            swipeLeftFunc;
           }
         }
       }
