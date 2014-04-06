@@ -8,8 +8,7 @@ function Pages( options ) {
       selector : false,
       log : false
     }, 
-    page = false,
-    pageId = false,
+    currPage = false,
     selector = false,
     pageData = '',
     pageNum = 0;
@@ -18,21 +17,12 @@ function Pages( options ) {
   var pausedFrame = null;
   var latestFrame = null;
   var controller = new Leap.Controller({enableGestures: true});
-
-  var swipeRightFunc = function () {};
-  var swipeLeftFunc  = function () {};
-
-  this.attachSwipeLeft = function(func){
-    swipeLeftFunc = func;
-  }
-  this.attachSwipeRight = function(func){
-    swipeRightFunc = func;
-  }
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
 
     if(pageNum > 0) pageNum--;
+    console.log("Rendered page " + currPage.id);
     render();
   };
 
@@ -41,6 +31,7 @@ function Pages( options ) {
 
     if(pageData.pages.length){
       if(pageNum < pageData.pages.length-1) pageNum++;
+      console.log("Rendered page " + currPage.id);
       render();
     }
   };
@@ -73,6 +64,8 @@ function Pages( options ) {
     // console.log(pageNum);
     // console.log(pageData.pages[pageNum].content);
 
+    currPage = pageData.pages[pageNum];
+
     content = pageData.pages[pageNum].content
     selector.html(content);
     $('<h4>').attr({id: 'page_number'}).appendTo(selector);
@@ -82,17 +75,6 @@ function Pages( options ) {
     blockInput(1000);
   };
 
-  
-
-  var fetch = function(sourceUrl) {
-    console.log(sourceUrl);
-    $.getJSON(sourceUrl, function(json){
-      pageData = json;
-      console.log("Gots the data");
-      console.log(json);
-      render();
-    });
-  };
 
   window.onkeypress = function(e) {
     if (e.charCode == 32) {
@@ -116,11 +98,9 @@ function Pages( options ) {
           if(gesture.direction[0] > 0){
             swipeDirection = "right";
             prevPage();
-            swipeRightFunc();
           } else {
             swipeDirection = "left";
             nextPage();
-            swipeLeftFunc;
           }
         }
       }
