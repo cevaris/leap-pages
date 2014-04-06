@@ -7,6 +7,7 @@ function Pages( options ) {
       source : false,
       selector : false,
       handlers: false,
+      start: 0,
       log : false
     }, 
     currPage = false,
@@ -152,6 +153,9 @@ function Pages( options ) {
       throw "Selector not defined";
     if(!config.source)
       throw "Book not defined";
+
+    if(config.start != 0)
+      pageNum = config.start
 
 
     selector = $(config.selector);
