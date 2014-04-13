@@ -1,0 +1,40 @@
+<div id="page"></div>
+
+
+<div id="out"></div>
+<div id="log"></div>
+
+
+<script>
+$(document).ready(function(){
+
+var book = {
+  name:"Addition and Subtraction Book",
+  pages:[
+    {id: "kda", content:"<div class=\"row\"> <h2>Addition</h2> <div class=\"col-md-6\"> <h3>What is?</h3> 3 + 6 = ??? </div> <div class=\"col-md-6\"> <h3>Choose the correct answer</h3> <table class=\"table text-center table-trim\"> <tr><td><button class=\"btn btn-default leap-interactive wrong\">1</button></td><td><button class=\"btn btn-default leap-interactive wrong\">2</button></td><td><button class=\"btn btn-default leap-interactive wrong\">3</button></td></tr> <tr><td><button class=\"btn btn-default leap-interactive wrong\">4</button></td><td><button class=\"btn btn-default leap-interactive wrong\">5</button></td><td><button class=\"btn btn-default leap-interactive wrong\">6</button></td></tr> <tr><td><button class=\"btn btn-default leap-interactive wrong\">7</button></td><td><button class=\"btn btn-default leap-interactive wrong\">8</button></td><td><button class=\"btn btn-default leap-interactive right\">9</button></td></tr> <tr><td> </td><td><button class=\"btn btn-default leap-interactive wrong\">0</button></td><td> </td></tr> </table> </div> </div>"},
+    {id: "kdb", content:"<div class=\"row\"> <h2>Subtraction</h2> <div class=\"col-md-6\"> <h3>What is?</h3> 8 - 4 = ??? </div> <div class=\"col-md-6\"> <h3>Choose the correct answer</h3> <table class=\"table text-center table-trim\"> <tr><td><button class=\"btn btn-default leap-interactive wrong\">1</button></td><td><button class=\"btn btn-default leap-interactive wrong\">2</button></td><td><button class=\"btn btn-default leap-interactive wrong\">3</button></td></tr> <tr><td><button class=\"btn btn-default leap-interactive right\">4</button></td><td><button class=\"btn btn-default leap-interactive wrong\">5</button></td><td><button class=\"btn btn-default leap-interactive wrong\">6</button></td></tr> <tr><td><button class=\"btn btn-default leap-interactive wrong\">7</button></td><td><button class=\"btn btn-default leap-interactive wrong\">8</button></td><td><button class=\"btn btn-default leap-interactive wrong\">9</button></td></tr> <tr><td> </td><td><button class=\"btn btn-default leap-interactive wrong\">0</button></td><td> </td></tr> </table> </div> </div>"}
+  ]
+};
+
+var gestureHandler = {
+  click : {
+    "kda": [
+      { selector: ".right", action: function(e){ Pages.alert('success', "You got it, correct!!!!"); } },
+      { selector: ".wrong", action: function(e){ Pages.alert('danger', "Nope, incorrect answer"); } },],
+    "kdb": [
+      { selector: ".right", action: function(e){ Pages.alert('success', "You got it, correct!!!!"); } },
+      { selector: ".wrong", action: function(e){ Pages.alert('danger', "Nope, incorrect answer"); } }
+    ]
+  }
+};
+
+var pages = new Pages({
+  source: book,
+  handlers: gestureHandler,
+  selector: '#page'
+});
+    
+});
+
+
+</script>

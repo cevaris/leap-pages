@@ -20,9 +20,6 @@ function Pages( options ) {
 
   var pausedFrame = null;
   var latestFrame = null;
-  // var controller = new Leap.Controller({enableGestures: true});
-
-
   
   var prevPage = function(){
     if($('#blockInput').length) return false;
@@ -46,9 +43,9 @@ function Pages( options ) {
     var handlers = config.handlers;
     if(handlers && handlers.click){
       // console.log(handlers.swipeLeft);
-      // console.log(currPage.id);
-      // console.log(currPage.id in handlers.click);
-      // console.log(handlers.click[currPage.id]);
+      console.log(currPage.id);
+      console.log(currPage.id in handlers.click);
+      console.log(handlers.click[currPage.id]);
       
       if(currPage.id in handlers.click){
         if (handlers.click[currPage.id] instanceof Array) {
@@ -111,7 +108,6 @@ function Pages( options ) {
 
     content = pageData.pages[pageNum].content
     selector.html(content);
-    // $('<h4>').attr({id: 'page_number'}).appendTo(selector);
     $('#page_number').html('Page <b>'+(pageNum+1)+'</b> of '+pageData.pages.length);
 
 
