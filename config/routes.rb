@@ -1,6 +1,6 @@
 Pages::Application.routes.draw do
 
-  root 'pages#swipe'
+  root 'pages#index'
   
 
 
