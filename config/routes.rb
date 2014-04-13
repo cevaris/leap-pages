@@ -1,6 +1,6 @@
 Pages::Application.routes.draw do
 
-  root 'pages#index'
+  root 'statics#home'
   
 
 
