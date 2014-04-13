@@ -3,13 +3,15 @@ Pages::Application.routes.draw do
   root 'statics#home'
   
 
+  get 'about' => 'statics#about', as: :about
 
   get 'pages/swipe' => 'pages#swipe'
   get 'pages/click' => 'pages#click'
   get 'pages/grab', to: 'pages#grab'
   get 'pages/:page', to: 'pages#page'
 
-  resources :pages
+
+
   # get 'jobs/poll', to: 'jobs#poll', as: :jobs_poll
 
 
