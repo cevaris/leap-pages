@@ -178,3 +178,14 @@ function Pages( options ) {
   return init();
 
 }
+
+Pages.alert = function(status, message, time){
+
+  var time = typeof time !== 'undefined' ? a : 5000;
+
+  $('#alerts').html('<div class="alert alert-message alert-'+status+'">'+message+' <a class="close" data-dismiss="alert">×</a></div>');
+  $('.alert').animate({top: 10}, 500);
+  setTimeout(function() {
+      $('.alert').fadeOut('fast');
+  }, time);
+};
