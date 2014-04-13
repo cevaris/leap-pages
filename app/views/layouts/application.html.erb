@@ -3,8 +3,11 @@
 <head>
   <title>Pages</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -17,6 +20,7 @@
 <%= render partial: 'layouts/header' %>
 
 <br/>
+<hr/>
 <div class="container">
   <div id = "alerts"></div>
 
@@ -44,5 +48,5 @@
 </body>
 </html>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
