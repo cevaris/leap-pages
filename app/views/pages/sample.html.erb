@@ -6,6 +6,7 @@
 
 
 <script>
+$(document).ready(function(){
 
 var book = {
   name:"Sample Book",
@@ -31,14 +32,12 @@ var gestureHandler = {
   }
 };
 
-$(document).ready(function(){
-
-  var pages = new Pages({
-    source: book,
-    handlers: gestureHandler,
-    selector: '#page'
-    // log: true
-  });
+var pages = new Pages({
+  source: book,
+  handlers: gestureHandler,
+  selector: '#page'
+  // log: true
+});
     
 });
 
