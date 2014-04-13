@@ -19,13 +19,13 @@ var book = {
 
 var gestureHandler = {
   swipeLeft : {
-    "kda": { action: function(){ Pages.alert('warning', "Done studying? We are going to test you now, so be sure!!"); } }
+    "kda": { action: function(){ Pages.modal("Done studying? We are going to test you now, so be sure!!"); } }
   },
   click : {
     "kdb": [
-      { selector: "#red", action: function(e){ alert("Nope, wrong color"); } },
-      { selector: "#green", action: function(e){ alert("Close, try again!"); } },
-      { selector: "#blue", action: function(e){ alert("You got it!!"); } }
+      { selector: "#red", action: function(e){ Pages.alert('danger', "Nope, wrong color"); } },
+      { selector: "#green", action: function(e){ Pages.alert('danger', "Close, try again!"); } },
+      { selector: "#blue", action: function(e){ Pages.alert('success',"You got it!!"); } }
     ]
   }
 };

@@ -1,6 +1,8 @@
 function Pages( options ) {
 
   var LEFT=37, UP=38, RIGHT=39, DOWN=40;
+
+  var timeouts = {};
   
   var config = {
       visible : true,
@@ -179,13 +181,22 @@ function Pages( options ) {
 
 }
 
+
+Pages.modal = function(message) {
+  $('#message').html(message);
+  $('.modal').modal('show');
+}
+
 Pages.alert = function(status, message, time){
 
   var time = typeof time !== 'undefined' ? a : 5000;
 
   $('#alerts').html('<div class="alert alert-message alert-'+status+'">'+message+' <a class="close" data-dismiss="alert">×</a></div>');
   $('.alert').animate({top: 10}, 500);
-  setTimeout(function() {
+
+  if('alert' in timeouts) clearTimeout(timeouts['alert']);
+
+  timeouts['alert'] = setTimeout(function() {
       $('.alert').fadeOut('fast');
   }, time);
 };

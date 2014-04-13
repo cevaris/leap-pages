@@ -17,6 +17,23 @@
 <div class="container">
   <div id = "alerts"></div>
   <%= yield %>
+  
+
+  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close leap-interactive" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Book Message</h4>
+        </div>
+        <div class="modal-body" id="message"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary leap-interactive" data-dismiss="modal">Continue</button>
+        </div><!-- /.modal-footer -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
 </div>
 
 </body>
