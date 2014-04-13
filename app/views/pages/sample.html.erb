@@ -31,11 +31,15 @@ var gestureHandler = {
   }
 };
 
-var pages = new Pages({
-  source: book,
-  handlers: gestureHandler,
-  selector: '#page'
-  // log: true
+$(document).ready(function(){
+
+  var pages = new Pages({
+    source: book,
+    handlers: gestureHandler,
+    selector: '#page'
+    // log: true
+  });
+    
 });
 
 

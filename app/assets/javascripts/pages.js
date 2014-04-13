@@ -111,8 +111,8 @@ function Pages( options ) {
 
     content = pageData.pages[pageNum].content
     selector.html(content);
-    $('<h4>').attr({id: 'page_number'}).appendTo(selector);
-    $('#page_number').html('Page '+(pageNum+1)+' of '+pageData.pages.length);
+    // $('<h4>').attr({id: 'page_number'}).appendTo(selector);
+    $('#page_number').html('Page'+(pageNum+1)+' of '+pageData.pages.length);
 
 
     afterRender();
