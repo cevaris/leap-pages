@@ -8,4 +8,9 @@ class PagesController < ApplicationController
 
   def grab
   end
+
+
+  def page
+    render params[:page]
+  end
 end
