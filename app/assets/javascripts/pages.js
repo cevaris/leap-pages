@@ -2,6 +2,7 @@ function Pages( options ) {
 
   var LEFT=37, UP=38, RIGHT=39, DOWN=40;
 
+  // Defaults
   var config = {
       visible : true,
       source : false,
@@ -19,6 +20,39 @@ function Pages( options ) {
   var pausedFrame = null;
   var latestFrame = null;
   
+
+  
+
+  var beforeRender = function(){
+    var handlers = config.handlers;
+    // Check to see if there are any swipe events
+    if(handlers && (handlers.swipeLeft || handlers.swipeRight)){
+      // Fire handler if custom handler includes current page
+      if((currPage.id in handlers.swipeLeft) || (currPage.id in handlers.swipeRight))
+        handlers.swipeLeft[currPage.id].action();
+    }
+  }
+
+  var afterRender = function(){
+    var handlers = config.handlers;
+
+    // If there are any click handlers defined
+    if(handlers && handlers.click){
+      // If current page has a click handler defined
+      if(currPage.id in handlers.click){
+        // If current page has 1+ click handlers defined
+        if (handlers.click[currPage.id] instanceof Array) {
+          // For each click handler, assign click listener and custom action
+          $.each( handlers.click[currPage.id], function( index, handler ) {
+            $(document.body).on("click", handler.selector, handler.action);
+          });
+        }
+      }
+    }
+  }
+
+
+  // Move the Previous Page
   var prevPage = function(){
     if($('#blockInput').length) return false;
 
@@ -26,41 +60,7 @@ function Pages( options ) {
     render();
   };
 
-  var beforeRender = function(){
-    var handlers = config.handlers;
-    if(handlers && handlers.swipeLeft){
-      // console.log(handlers.swipeLeft);
-      // console.log(currPage.id);
-      // console.log(currPage.id in handlers.swipeLeft);
-      if(currPage.id in handlers.swipeLeft)
-        handlers.swipeLeft[currPage.id].action();
-    }
-  }
-
-  var afterRender = function(){
-    var handlers = config.handlers;
-    if(handlers && handlers.click){
-      // console.log(handlers.swipeLeft);
-      console.log(currPage.id);
-      console.log(currPage.id in handlers.click);
-      console.log(handlers.click[currPage.id]);
-      
-      if(currPage.id in handlers.click){
-        if (handlers.click[currPage.id] instanceof Array) {
-          $.each( handlers.click[currPage.id], function( index, handler ) {
-            console.log( index );
-            console.log( handler );
-            $(document.body).on("click", handler.selector, handler.action);
-            console.log("Attached Handler: "+index);
-          });
-
-        }
-        // $(document.body).on("click", handlers.click[currPage.id].selector, handlers.click[currPage.id].action);
-        // console.log("Attached");
-      }
-    }
-  }
-
+  // Move the Next Page
   var nextPage = function(){
     if($('#blockInput').length) return false;
 
@@ -74,20 +74,6 @@ function Pages( options ) {
     }
   };
 
-  var observeKeypress = function(){
-    $(document).on('keyup', function(e){
-      if (e.keyCode == RIGHT) { 
-        nextPage();
-        console.log("RIGHT");
-        return false;
-      }
-      if (e.keyCode == LEFT) { 
-        console.log("LEFT");
-        prevPage();
-        return false;
-      }
-    });
-  };
 
   var blockInput = function(time){
     // Create hidden field
@@ -96,68 +82,101 @@ function Pages( options ) {
     setTimeout(function(){ $('#blockInput').remove() }, time);
   }
 
+  // Render the current Page
   var render = function(){
-    // console.log("===========");
-    // console.log(pageData);
-    // console.log(pageNum);
-    // console.log(pageData.pages[pageNum].content);
-
     currPage = pageData.pages[pageNum];
 
+    // Grab page content
     content = pageData.pages[pageNum].content
+    // Insert page into the current selector
     selector.html(content);
+
+    // Update Page Number
     $('#page_number').html('Page <b>'+(pageNum+1)+'</b> of '+pageData.pages.length);
 
-
+    // Invoke any AferRender Handlers
     afterRender();
 
+    // Prevent any new input for 1 second
     blockInput(1000);
   };
 
 
+  // Capture LEAP Motion Pause/Play
   window.onkeypress = function(e) {
     if (e.charCode == 32) {
       if (pausedFrame == null) {
+        // Allow LEAP Motion input
         pausedFrame = latestFrame;
       } else {
+        // Pause LEAP Motion input
         pausedFrame = null;
       }
     }
   };
 
+  // Observe Page right/left key entry
+  var observeKeypress = function(){
+    $(document).on('keyup', function(e){
+      if (e.keyCode == RIGHT) { 
+        nextPage();
+        return false;
+      }
+      if (e.keyCode == LEFT) { 
+        prevPage();
+        return false;
+      }
+    });
+  };
 
+
+  // Capture LEAP Motion input
   var handleGestures = function (gesture){
+
+    // Swipe gesture
     if (gesture.type == "swipe") {;
         if(gesture.direction[0] > 0){
+          // Swipe Left
           prevPage();
         } else {
+          // Swipe Right
           nextPage();
         }
     }
   };
 
+
+  // Main/Entry Function
   var init = function() {
 
+    // Overwrite defaults with any user-defined options
     config = $.extend(config, options); 
         
+    // Validate there is a selector and book
     if(!config.selector)
       throw "Selector not defined";
     if(!config.source)
       throw "Book not defined";
 
+    // Handle custom start page
     if(config.start != 0)
       pageNum = config.start
 
 
-    selector = $(config.selector);
-    observeKeypress();
+    // Assign the book
     pageData = config.source;
+    // Assign the book render location
+    selector = $(config.selector);
+
+
+    // Start observing key presses
+    observeKeypress();
+
+
+    // Render out the current page
     render();
 
-
-    console.log(config);
-    console.log(pageData);
-
+    // Start the Leap JS library
     LeapManager.init({
       maxCursors:1,
       enableHoverTap: true,
@@ -171,18 +190,22 @@ function Pages( options ) {
   };
 
 
+  // Start Pages
   return init();
 
 }
 
+
+// Global timeouts
 Pages.timeouts = {}
 
-
+// Pages Modal
 Pages.modal = function(message) {
   $('#message').html(message);
   $('.modal').modal('show');
 }
 
+// Pages Alert
 Pages.alert = function(status, message, time){
 
   var time = typeof time !== 'undefined' ? a : 5000;
